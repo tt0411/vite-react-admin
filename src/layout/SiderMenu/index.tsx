@@ -1,12 +1,13 @@
 import React, {FC, useEffect, useState} from "react";
-import {Menu, MenuProps} from 'antd'
+import {Menu, MenuProps, Spin} from 'antd'
 import {RootState, useDispatch, useSelector} from "@/redux";
-import {updateCollapse} from "@/redux/modules/menu";
+import {setAuthRouter, updateCollapse, setMenuList as reduxSetMenuList} from "@/redux/modules/menu";
 import {useLocation, useNavigate} from "react-router-dom";
-import {getOpenKeys, searchRoute} from "@/utils";
+import {findAllBreadcrumb, getOpenKeys, handleRouter, searchRoute} from "@/utils";
 import {RouteObject} from "@/routers/interface";
 import {MenuFoldOutlined, MenuUnfoldOutlined} from "@ant-design/icons";
 import IconComp from "@/common/IconComp";
+import {routeModel} from "../../../mock/menu";
 
 const SiderMenu: FC = () => {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ const SiderMenu: FC = () => {
     const [selectedKeys, setSelectedKeys] = useState<string[]>([pathname]);
     const [openKeys, setOpenKeys] = useState<string[]>([]);
     const [menuList, setMenuList] = useState<MenuItem[]>([])
+    const [loading, setLoading] = useState<boolean>(false)
 
 
     // 定义 menu 类型
@@ -45,7 +47,7 @@ const SiderMenu: FC = () => {
         menuList.forEach((item: RouteObject) => {
             // 下面判断代码解释 *** !item?.children?.length   ==>   (!item.children || item.children.length === 0)
             if (!item?.children?.length) { // @ts-ignore
-                return newArr.push(getItem(item.meta.title, item.path, <IconComp icon={item.meta.icon}/>));
+                return newArr.push(getItem(item.meta.title, item.path, <IconComp icon={item.meta.icon} />))
             }
             // @ts-ignore
             newArr.push(getItem(item.meta.title, item.path, <IconComp icon={item.meta.icon}/>, deepLoopFloat(item.children)));
@@ -53,9 +55,26 @@ const SiderMenu: FC = () => {
         return newArr;
     };
 
+    const getMenuData = async () => {
+        setLoading(true);
+        try {
+            // const { data } = await getMenuList();
+            // if (!data) return;
+            const data = routeModel
+            setMenuList(deepLoopFloat(data));
+            // 存储处理过后的所有面包屑导航栏到 redux 中
+           // dispatch(setBreadcrumbList(findAllBreadcrumb(data)));
+            // 把路由菜单处理成一维数组，存储到 redux 中，做菜单权限判断
+            const dynamicRouter = handleRouter(data);
+            dispatch(setAuthRouter(dynamicRouter));
+            dispatch(reduxSetMenuList(data));
+        } finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
-        setMenuList(deepLoopFloat(reduxMenuList))
-    }, [])
+        getMenuData();
+    }, []);
 
     // 设置当前展开的 subMenu
     const onOpenChange = (openKeys: string[]) => {
@@ -80,6 +99,7 @@ const SiderMenu: FC = () => {
 
     return (
         <div className={'h-100% relative'}>
+            <Spin spinning={loading} tip="Loading...">
             <Menu
                 style={{height: '100%'}}
                 selectedKeys={selectedKeys}
@@ -91,6 +111,7 @@ const SiderMenu: FC = () => {
                 onOpenChange={onOpenChange}
                 items={menuList}
             />
+            </Spin>
             <div
                 className={'absolute bottom-0 w-100% h-40px flex items-center justify-end pr-45 border-t-1px border-t-#F0F0F0'}>
                 <span className={'cursor-pointer'} onClick={toggleCollapsed}>

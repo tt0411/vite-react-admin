@@ -13,7 +13,7 @@ type Props = {
 
 const IconComp: React.FC<Props> = ({ icon, color }) => {
     return (
-       <IconFont type={icon} style={{color}}/>
+       <IconFont type={icon} style={color ? {color} : undefined}/>
     )
 }
 

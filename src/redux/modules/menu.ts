@@ -23,9 +23,12 @@ const menuSlice = createSlice({
 		},
 		setAuthRouter(state: MenuState, { payload }: PayloadAction<string[]>) {
 			state.authRouter = payload;
+		},
+		resetMenuStore() {
+			return menuState
 		}
 	}
 });
 
 export default menuSlice.reducer;
-export const { updateCollapse, setMenuList, setAuthButtons, setAuthRouter } = menuSlice.actions;
+export const { resetMenuStore, updateCollapse, setMenuList, setAuthButtons, setAuthRouter } = menuSlice.actions;

@@ -29,7 +29,7 @@ const KeepAlive = (props: any) => {
 		<div>
 			{Array.from(componentList.current).map(([key, component]) => (
 				<div key={key}>
-					{key === activeKey.current ? <div className={'h-100%'}>{component}</div> : <div style={{ display: "none" }}>{component}</div>}
+					{key === activeKey.current ? <div style={{height: 'calc(100vh - 101px)'}}>{component}</div> : <div style={{ display: "none" }}>{component}</div>}
 				</div>
 			))}
 		</div>

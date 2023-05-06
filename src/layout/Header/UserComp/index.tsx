@@ -2,9 +2,15 @@ import React from 'react'
 import {useNavigate} from "react-router-dom";
 import {Dropdown, Image, MenuProps, message, Modal, Space} from "antd";
 import {ExclamationCircleOutlined, LogoutOutlined} from "@ant-design/icons";
+import {useDispatch} from "@/redux";
+import { resetGlobalStore } from "@/redux/modules/global";
+import { resetTabsStore } from "@/redux/modules/tabs";
+import {resetMenuStore} from "@/redux/modules/menu";
+
 
 const UserComp = () => {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
     const items: MenuProps['items'] = [
         // {
         //     label: (
@@ -33,6 +39,9 @@ const UserComp = () => {
     ];
     const logout = () => {
         navigate("/login")
+        dispatch(resetGlobalStore())
+        dispatch(resetTabsStore())
+        dispatch(resetMenuStore())
         localStorage.removeItem('persist:redux-state')
 
     }

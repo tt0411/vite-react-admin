@@ -16,7 +16,7 @@ import {connect} from "react-redux";
 
 function App() {
     const dispatch = useDispatch();
-    const {language, assemblySize} = useSelector((state: RootState) => state.global);
+    const {language} = useSelector((state: RootState) => state.global);
     const [i18nLocale, setI18nLocale] = useState(zhCN);
 
     // 设置 antd 语言国际化
@@ -36,19 +36,9 @@ function App() {
         setAntdLanguage();
     }, [language]);
 
-    function fetchRouteList() {
-        const dynamicRouter = handleRouter(routeModel);
-        dispatch(setAuthRouter(dynamicRouter));
-        dispatch(setMenuList(routeModel))
-    }
-
-    useEffect(()=> {
-        fetchRouteList()
-    }, [])
-
   return (
    <HashRouter>
-       <ConfigProvider locale={i18nLocale} componentSize={assemblySize}>
+       <ConfigProvider locale={i18nLocale}>
            <AuthRouter>
              <Router />
            </AuthRouter>

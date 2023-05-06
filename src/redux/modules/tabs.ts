@@ -16,8 +16,11 @@ const tabsSlice = createSlice({
         setTabsList(state: TabsState, { payload }: PayloadAction<Menu.MenuOptions[]>) {
             state.tabsList = payload;
         },
+        resetTabsStore() {
+            return tabsState
+        }
     }
 });
 
 export default tabsSlice.reducer;
-export const { setTabsActive, setTabsList } = tabsSlice.actions;
+export const { resetTabsStore, setTabsActive, setTabsList } = tabsSlice.actions;

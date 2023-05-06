@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Layout, theme} from "antd";
 // import {Outlet} from "react-router";
 import SiderMenu from "@/layout/SiderMenu";
@@ -10,8 +10,8 @@ import './index.scss'
 
 const LayoutIndex = () => {
     const {Sider, Content, Header} = Layout
-    const {isCollapse} = useSelector((state: RootState) => state.menu);
-    const {unKeepAliveList} = useSelector((state: RootState) => state.global);
+    const {isCollapse, menuList} = useSelector((state: RootState) => state.menu);
+    const {unKeepAliveList, token} = useSelector((state: RootState) => state.global);
     const {token: {colorBgContainer}} = theme.useToken();
 
     return (
@@ -21,14 +21,14 @@ const LayoutIndex = () => {
             </Header>
             <Layout>
                 <Sider style={{background: colorBgContainer}} trigger={null} collapsed={isCollapse}>
-                    <SiderMenu/>
+                    <SiderMenu />
                 </Sider>
                 <Layout>
                     <TabsLayout/>
                     <Content>
                         {/* <Outlet></Outlet> */}
                         {/* 路由缓存 */}
-                        <KeepAlive exclude={unKeepAliveList} keys={[]}></KeepAlive>
+                        <KeepAlive exclude={unKeepAliveList}></KeepAlive>
                     </Content>
                 </Layout>
             </Layout>
