@@ -6,6 +6,7 @@ import {searchRoute} from "@/utils";
 import {setTabsActive, setTabsList} from "@/redux/modules/tabs";
 import IconComp from "@/common/IconComp";
 import {changeUnKeepAliveList, removeUnKeepAlive} from "@/redux/modules/global";
+import MoreButton from "@/layout/Tabs/components/MoreButton";
 
 const TabsLayout = () => {
     const dispatch = useDispatch()
@@ -89,7 +90,9 @@ const TabsLayout = () => {
                     )
                 })}
             </div>
-            <div className={'w-100px'}></div>
+            <div className={'ml-20px'}>
+                <MoreButton />
+            </div>
         </div>
     );
 };

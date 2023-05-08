@@ -1,11 +1,9 @@
 import {HashRouter} from "react-router-dom";
 import Router from "@/routers/index";
 import {RootState, useDispatch, useSelector} from "@/redux";
-import {setAuthRouter, setMenuList} from "@/redux/modules/menu";
-import {routeModel} from "../mock/menu";
 import {useEffect, useState} from "react";
 import {ConfigProvider} from "antd";
-import {getBrowserLang, handleRouter} from "@/utils";
+import {getBrowserLang} from "@/utils";
 import zhCN from "antd/lib/locale/zh_CN";
 import enUS from "antd/lib/locale/en_US";
 import "moment/dist/locale/zh-cn";

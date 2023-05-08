@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import {Layout, theme} from "antd";
 // import {Outlet} from "react-router";
 import SiderMenu from "@/layout/SiderMenu";
@@ -10,8 +10,8 @@ import './index.scss'
 
 const LayoutIndex = () => {
     const {Sider, Content, Header} = Layout
-    const {isCollapse, menuList} = useSelector((state: RootState) => state.menu);
-    const {unKeepAliveList, token} = useSelector((state: RootState) => state.global);
+    const {isCollapse} = useSelector((state: RootState) => state.menu);
+    const {unKeepAliveList} = useSelector((state: RootState) => state.global);
     const {token: {colorBgContainer}} = theme.useToken();
 
     return (

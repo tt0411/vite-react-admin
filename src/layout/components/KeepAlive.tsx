@@ -1,5 +1,6 @@
-import { useRef, useEffect, useReducer, useMemo, memo } from "react";
+import {useRef, useEffect, useReducer, useMemo, memo, useState} from "react";
 import { useLocation, useOutlet } from "react-router-dom";
+import {RootState, useSelector} from "@/redux";
 
 const KeepAlive = (props: any) => {
 	const outlet = useOutlet();
@@ -9,6 +10,7 @@ const KeepAlive = (props: any) => {
 	const forceUpdate = useReducer((bool: any) => !bool, true)[1]; // 强制渲染
 	const cacheKey = useMemo(() => pathname + "__", [pathname]); // eslint-disable-line
 	const activeKey = useRef<string>("");
+	const {isShow} = useSelector((state: RootState) => state.tabs);
 
 	useEffect(() => {
 		componentList.current.forEach(function (value, key) {
@@ -29,7 +31,12 @@ const KeepAlive = (props: any) => {
 		<div>
 			{Array.from(componentList.current).map(([key, component]) => (
 				<div key={key}>
-					{key === activeKey.current ? <div style={{height: 'calc(100vh - 101px)'}}>{component}</div> : <div style={{ display: "none" }}>{component}</div>}
+					{
+					key === activeKey.current && isShow ?
+					<div style={{height: 'calc(100vh - 101px)'}}>{component}</div>
+					: key === activeKey.current && !isShow ?
+					<div style={{height: 'calc(100vh - 101px)'}}></div>
+					 : <div style={{ display: "none" }}>{component}</div>}
 				</div>
 			))}
 		</div>

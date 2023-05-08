@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 const tabsState: TabsState = {
     tabsActive: '/home',
     tabsList: [{ title: "首页", path: '/home' }],
+    isShow: true, // 实现刷新页面效果
 };
 
 const tabsSlice = createSlice({
@@ -16,6 +17,9 @@ const tabsSlice = createSlice({
         setTabsList(state: TabsState, { payload }: PayloadAction<Menu.MenuOptions[]>) {
             state.tabsList = payload;
         },
+        setIsShow(state: TabsState, { payload }: PayloadAction<boolean>) {
+          state.isShow = payload
+        },
         resetTabsStore() {
             return tabsState
         }
@@ -23,4 +27,4 @@ const tabsSlice = createSlice({
 });
 
 export default tabsSlice.reducer;
-export const { resetTabsStore, setTabsActive, setTabsList } = tabsSlice.actions;
+export const { resetTabsStore, setTabsActive, setTabsList, setIsShow } = tabsSlice.actions;

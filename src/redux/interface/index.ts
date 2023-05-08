@@ -28,6 +28,7 @@ export interface MenuState {
 export interface TabsState {
 	tabsActive: string;
 	tabsList: Menu.MenuOptions[];
+	isShow: boolean;
 }
 
 /* BreadcrumbState */
